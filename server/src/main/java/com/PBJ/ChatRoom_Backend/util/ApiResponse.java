@@ -1,4 +1,4 @@
-package com.PBJ.ChatRoom_Backend;
+package com.PBJ.ChatRoom_Backend.util;
 
 import java.util.Map;
 

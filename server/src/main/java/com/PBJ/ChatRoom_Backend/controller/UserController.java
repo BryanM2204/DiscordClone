@@ -44,14 +44,23 @@ public class UserController {
 
     @PostMapping("/register")
     public ResponseEntity<ApiResponse<String>> registerUser(@Valid @RequestBody RegisterDTO registerDTO) {
-        userService.registerUser(registerDTO);
+        boolean Result = userService.registerUser(registerDTO);
 
-        ApiResponse<String> response = new ApiResponse<>(
-                "Registration",
-                Map.of("Executed", true, "Message", "Registration was a success!")
-        );
+        if(Result) {
+            ApiResponse<String> response = new ApiResponse<>(
+                    "Registration",
+                    Map.of("Executed", true, "Message", "Registration was a success!")
+            );
 
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
+        } else {
+            ApiResponse<String> response = new ApiResponse<>(
+                    "Registration fail",
+                    Map.of("Executed", false, "Message", "Registration failed! User already exists!")
+            );
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+
     }
 
 

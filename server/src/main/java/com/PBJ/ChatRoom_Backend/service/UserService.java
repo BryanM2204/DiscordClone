@@ -31,8 +31,13 @@ public class UserService {
 
     }
 
-    public void registerUser(RegisterDTO registerDTO) {
+    public boolean registerUser(RegisterDTO registerDTO) {
         User user = new User();
+
+        if(userRepository.findByUsername(registerDTO.getUsername()) != null) {
+            return false;
+        }
+
         user.setUsername(registerDTO.getUsername());
         user.setEmail(registerDTO.getEmail());
 
@@ -40,6 +45,7 @@ public class UserService {
         user.setPassword(hashedPassword);
 
         userRepository.save(user);
+        return true;
 
     }
 

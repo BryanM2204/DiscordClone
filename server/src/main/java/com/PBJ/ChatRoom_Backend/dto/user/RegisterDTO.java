@@ -1,34 +1,25 @@
-package com.PBJ.ChatRoom_Backend.model;
+package com.PBJ.ChatRoom_Backend.dto.user;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 
-@Entity
-public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-
+public class RegisterDTO {
     @NotBlank(message="Username is required")
     private String username;
 
     @NotBlank(message="Email is required")
-    @Email(message="Email must be valid")
+    @Email(message="Invalid email format")
     private String email;
 
     @NotBlank(message="Password is required")
     private String password;
 
-    public Integer getId() {
-        return id;
-    }
+    public RegisterDTO() {}
 
-    public void setId(Integer id) {
-        this.id = id;
+    public RegisterDTO(String username, String email, String password) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
     }
 
     public String getUsername() {

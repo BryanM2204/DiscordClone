@@ -1,6 +1,5 @@
 package com.PBJ.ChatRoom_Backend.controller;
 
-import com.PBJ.ChatRoom_Backend.model.User;
 import com.PBJ.ChatRoom_Backend.util.ApiResponse;
 import com.PBJ.ChatRoom_Backend.service.UserService;
 import com.PBJ.ChatRoom_Backend.dto.user.LoginDTO;
@@ -22,60 +21,10 @@ public class UserController {
     private UserService userService;
 
 
-    @PostMapping("/login")
-    public ResponseEntity<ApiResponse<String>> loginUser(@Valid @RequestBody LoginDTO loginDTO) {
-        boolean Result = userService.loginUser(loginDTO);
+    // To-Do - create endpoints:
+    //  1. Fetch a user's info
+    //  2. Update a user's info (use put)
+    //  3. Search for a user
 
-        if (Result) {
-            ApiResponse<String> response = new ApiResponse<>(
-                    "Login",
-                    Map.of("Executed", true, "Message", "Login was a success!")
-            );
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } else {
-            ApiResponse<String> response = new ApiResponse<>(
-                    "Login Fail",
-                    Map.of("Executed", false, "Message", "Login failed! Wrong username or password!")
-            );
-            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-        }
-
-    }
-
-    @PostMapping("/register")
-    public ResponseEntity<ApiResponse<String>> registerUser(@Valid @RequestBody RegisterDTO registerDTO) {
-        boolean Result = userService.registerUser(registerDTO);
-
-        if(Result) {
-            ApiResponse<String> response = new ApiResponse<>(
-                    "Registration",
-                    Map.of("Executed", true, "Message", "Registration was a success!")
-            );
-
-            return new ResponseEntity<>(response, HttpStatus.CREATED);
-        } else {
-            ApiResponse<String> response = new ApiResponse<>(
-                    "Registration fail",
-                    Map.of("Executed", false, "Message", "Registration failed! User already exists!")
-            );
-            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-        }
-
-    }
-
-
-    @GetMapping(path="/all")
-    public ResponseEntity<ApiResponse<String>> getAllUsers() {
-
-        Iterable<User> data = userService.getUsers();
-
-        ApiResponse<String> response = new ApiResponse<>(
-                "all_users",
-                Map.of("Executed", true, "data", data)
-        );
-        return new ResponseEntity<>(response, HttpStatus.OK);
-
-
-    }
 }
 

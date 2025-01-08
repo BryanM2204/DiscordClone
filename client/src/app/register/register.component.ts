@@ -29,7 +29,7 @@ export class RegisterComponent {
     if(this.profileForm.valid) {
       const formData = this.profileForm.value;
 
-      this.configService.postData('user/register', formData).subscribe({
+      this.configService.postData('auth/register', formData).subscribe({
         next: (response: any) => {
           if(response.status == 201){
             console.log("Registration Success", response);

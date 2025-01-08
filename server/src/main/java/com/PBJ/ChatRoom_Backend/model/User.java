@@ -1,11 +1,10 @@
 package com.PBJ.ChatRoom_Backend.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Email;
+
+import java.util.List;
 
 @Entity
 public class User {
@@ -22,6 +21,9 @@ public class User {
 
     @NotBlank(message="Password is required")
     private String password;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<ServerMember> serverMembers;
 
     public Integer getId() {
         return id;
@@ -50,7 +52,12 @@ public class User {
     public String getPassword() {
         return password;
     }
+
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public List<ServerMember> getServerMembers() { return serverMembers; }
+
+    public void setServerMembers(List<ServerMember> serverMembers) { this.serverMembers = serverMembers; }
 }

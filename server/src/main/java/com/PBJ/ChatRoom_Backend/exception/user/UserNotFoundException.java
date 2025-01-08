@@ -1,0 +1,7 @@
+package com.PBJ.ChatRoom_Backend.exception.user;
+
+public class UserNotFoundException extends RuntimeException {
+    public UserNotFoundException(String message) {
+        super(message);
+    }
+}

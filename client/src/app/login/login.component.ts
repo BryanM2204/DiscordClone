@@ -24,7 +24,7 @@ export class LoginComponent {
     if(this.profileForm.valid) {
       const formData = this.profileForm.value;
 
-      this.configService.postData('user/login', formData).subscribe({
+      this.configService.postData('auth/login', formData).subscribe({
         next: (response: any) => {
           if(response.status == 200){
             console.log("Login Success", response);

@@ -20,7 +20,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-
     // To-Do - create endpoints:
     //  1. Fetch a user's info
     //  2. Update a user's info (use put)

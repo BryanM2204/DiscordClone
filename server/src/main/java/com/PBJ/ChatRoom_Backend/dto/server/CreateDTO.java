@@ -1,6 +1,7 @@
 package com.PBJ.ChatRoom_Backend.dto.server;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public class CreateDTO {
     @NotBlank(message="Name is required")
@@ -9,7 +10,7 @@ public class CreateDTO {
     @NotBlank(message="Description is required")
     private String description;
 
-    @NotBlank(message="Owner ID is required")
+    @NotNull(message="Owner ID is required")
     private Integer ownerId;
 
     public CreateDTO() {}

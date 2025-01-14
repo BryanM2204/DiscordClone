@@ -1,6 +1,7 @@
 package com.PBJ.ChatRoom_Backend.exception;
 
 import com.PBJ.ChatRoom_Backend.exception.server.ServerCreationException;
+import com.PBJ.ChatRoom_Backend.exception.server.ServerNotFoundException;
 import com.PBJ.ChatRoom_Backend.exception.user.UserAlreadyExistsException;
 import com.PBJ.ChatRoom_Backend.exception.user.UserNotFoundException;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -29,6 +30,21 @@ public class GlobalExceptionHandler {
         Map<String, Object> errorDetails = new HashMap<>();
         errorDetails.put("message", "Failed to create server");
         errorDetails.put("error_code", "SERVER_CREATION_ERROR");
+        errorDetails.put("timestamp", LocalDateTime.now());
+
+        ApiResponse<Map<String, Object>> errorResponse = new ApiResponse<>(
+                "error",
+                errorDetails
+        );
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ServerNotFoundException.class)
+    public ResponseEntity<ApiResponse<Map<String, Object>>> handleServerNotFoundException(ServerNotFoundException e) {
+        logger.error("Server Not Found Exception: ", e);
+        Map<String, Object> errorDetails = new HashMap<>();
+        errorDetails.put("message", "Server Not Found");
+        errorDetails.put("error_code", "SERVER_NOT_FOUND_ERROR");
         errorDetails.put("timestamp", LocalDateTime.now());
 
         ApiResponse<Map<String, Object>> errorResponse = new ApiResponse<>(

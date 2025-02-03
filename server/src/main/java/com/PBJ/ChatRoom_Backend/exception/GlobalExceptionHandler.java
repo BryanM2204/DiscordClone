@@ -2,6 +2,8 @@ package com.PBJ.ChatRoom_Backend.exception;
 
 import com.PBJ.ChatRoom_Backend.exception.server.ServerCreationException;
 import com.PBJ.ChatRoom_Backend.exception.server.ServerNotFoundException;
+import com.PBJ.ChatRoom_Backend.exception.session.SessionNotFoundException;
+import com.PBJ.ChatRoom_Backend.exception.user.UnauthorizedException;
 import com.PBJ.ChatRoom_Backend.exception.user.UserAlreadyExistsException;
 import com.PBJ.ChatRoom_Backend.exception.user.UserNotFoundException;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -94,6 +96,35 @@ public class GlobalExceptionHandler {
                 errorDetails
         );
         return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(SessionNotFoundException.class)
+    public ResponseEntity<ApiResponse<Map<String, Object>>> handleSessionNotFoundException(SessionNotFoundException e) {
+        logger.warn("Session Not Found Exception: ", e);
+        Map<String, Object> errorDetails = new HashMap<>();
+        errorDetails.put("message", "Session Not Found");
+        errorDetails.put("error_code", "SESSION_NOT_FOUND_ERROR");
+        errorDetails.put("timestamp", LocalDateTime.now());
+        ApiResponse<Map<String, Object>> errorResponse = new ApiResponse<>(
+                "error",
+                errorDetails
+        );
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<ApiResponse<Map<String, Object>>> UnauthorizedException(Exception e) {
+        logger.warn("Unauthorized Exception: ", e);
+        Map<String, Object> errorDetails = new HashMap<>();
+        errorDetails.put("message", "Unauthorized");
+        errorDetails.put("error_code", "UNAUTHORIZED");
+        errorDetails.put("timestamp", LocalDateTime.now());
+        ApiResponse<Map<String, Object>> errorResponse = new ApiResponse<>(
+                "error",
+                errorDetails
+        );
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(Exception.class)

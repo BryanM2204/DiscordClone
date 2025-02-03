@@ -16,6 +16,7 @@ export class ConfigService {
       headers,
       observe: 'events',
       reportProgress: true,
+      withCredentials: true
     });
   }
 }

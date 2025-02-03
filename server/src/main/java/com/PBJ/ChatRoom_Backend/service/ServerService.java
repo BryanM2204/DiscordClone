@@ -13,6 +13,7 @@ import com.PBJ.ChatRoom_Backend.repository.ServerMemberRepository;
 import com.PBJ.ChatRoom_Backend.repository.ServerRepository;
 
 import com.PBJ.ChatRoom_Backend.repository.UserRepository;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,10 +35,15 @@ public class ServerService {
     @Autowired
     private ServerMemberRepository serverMemberRepository;
 
+    @Autowired
+    private HttpSession session;
+
     public Server createServer(CreateDTO createDTO) {
         // Check if the owner exists
-        User owner = userRepository.findById(createDTO.getOwnerId())
-                .orElseThrow(() -> new UserNotFoundException("User with ID " + createDTO.getOwnerId() + " not found"));
+        int userId = (int) session.getAttribute("userId");
+
+        User owner = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("User with ID " + userId + " not found"));
 
         // Validate that the server name is unique
         if (serverRepository.existsByName(createDTO.getName())) {
@@ -86,7 +92,10 @@ public class ServerService {
         return server;
     }
 
-    public List<ServerListDTO> getAllServers(Integer userId) {
+    public List<ServerListDTO> getAllServers() {
+        // obtain userID from session
+        Integer userId = (Integer) session.getAttribute("userId");
+
         // Fetch all serverMember entries for a specific userId
         List<ServerMember> serverMembers = serverMemberRepository.findByUserId(userId);
 

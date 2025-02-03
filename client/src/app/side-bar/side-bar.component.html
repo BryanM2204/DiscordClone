@@ -1,9 +1,69 @@
 <div class="servers">
   <ul>
+    <li class="server-icon">
+      <button class="server-icon">DM</button>
+    </li>
+    <hr class="split-line">
     <li *ngFor="let server of servers" class="server-icon">
       <button class="server-icon">
         {{ server.id }}
       </button>
     </li>
+
+    <!-- Button to join or create server -->
+    <li class="server-icon">
+      <button
+        class="add-button"
+        [attr.data-active]="showPopup && !isClosing"
+        [attr.data-closing]="isClosing"
+        (click)="togglePopup()">
+        +
+      </button>
+    </li>
   </ul>
 </div>
+
+
+<!-- Main Popup -->
+<div class="popup-backdrop" *ngIf="showPopup && !showCreateForm" (click)="togglePopup()" [class.closing]="isClosing">
+  <div class="popup" (click)="$event.stopPropagation()" [class.closing]="isClosing">
+    <h3>Server Config</h3>
+    <button class="close-button" (click)="togglePopup()">✖</button>
+    <div class="popup-options">
+      <button class="popup-option" (click)="joinServer()">Join Server</button>
+      <button class="popup-option" (click)="openCreateForm()">Create Server</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- Create Server Form -->
+<div class="popup-backdrop" *ngIf="showCreateForm">
+  <div class="create-server-form">
+    <h3>Create a Server</h3>
+    <form [formGroup]="createForm" (ngSubmit)="createServer()">
+      <div class="form-group">
+        <label for="server-name">Server Name</label>
+        <input id="server-name" formControlName="name" type="text" placeholder="Enter server name" required>
+      </div>
+
+      <div class="form-group">
+        <label for="server-description">Description</label>
+        <textarea id="server-description" formControlName="description" placeholder="Enter server description" required></textarea>
+      </div>
+
+      <p class="error-message" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+      <div class="form-actions">
+        <button type="submit" class="submit-button">Create</button>
+        <button type="button" class="cancel-button" (click)="showCreateForm = false">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+
+
+
+

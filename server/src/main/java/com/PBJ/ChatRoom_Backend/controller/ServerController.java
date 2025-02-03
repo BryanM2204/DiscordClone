@@ -3,11 +3,13 @@ package com.PBJ.ChatRoom_Backend.controller;
 import com.PBJ.ChatRoom_Backend.dto.server.CreateDTO;
 import com.PBJ.ChatRoom_Backend.dto.server.JoinDTO;
 import com.PBJ.ChatRoom_Backend.dto.server.ServerListDTO;
+import com.PBJ.ChatRoom_Backend.exception.user.UnauthorizedException;
 import com.PBJ.ChatRoom_Backend.model.Server;
 import com.PBJ.ChatRoom_Backend.service.ServerService;
 import com.PBJ.ChatRoom_Backend.util.ApiResponse;
 
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -53,9 +55,10 @@ public class ServerController {
         return new ResponseEntity<>(response,HttpStatus.CREATED);
     }
 
-    @GetMapping("/list/{userId}")
-    public ResponseEntity<ApiResponse<String>> listServers(@PathVariable Integer userId) {
-        List<ServerListDTO> serverList = serverService.getAllServers(userId);
+    @GetMapping("/list")
+    public ResponseEntity<ApiResponse<String>> listServers() {
+
+        List<ServerListDTO> serverList = serverService.getAllServers();
 
         ApiResponse<String> response = new ApiResponse<>(
                 "List of Servers",

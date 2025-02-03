@@ -33,7 +33,7 @@ export class RegisterComponent {
         next: (response: any) => {
           if(response.status == 201){
             console.log("Registration Success", response);
-            this.router.navigate(['/home'])
+            this.router.navigate(['/login'])
           }
         },
         error: (error) => {

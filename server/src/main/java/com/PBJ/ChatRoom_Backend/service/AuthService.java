@@ -6,10 +6,20 @@ import com.PBJ.ChatRoom_Backend.exception.user.UserAlreadyExistsException;
 import com.PBJ.ChatRoom_Backend.exception.user.UserNotFoundException;
 import com.PBJ.ChatRoom_Backend.model.User;
 import com.PBJ.ChatRoom_Backend.repository.UserRepository;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class AuthService {
@@ -18,6 +28,12 @@ public class AuthService {
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
+
+    @Autowired
+    private HttpSession session;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
     public User loginUser(LoginDTO loginDTO) {
         String username = loginDTO.getUsername();
@@ -29,6 +45,25 @@ public class AuthService {
         if(!passwordEncoder.matches(password, user.getPassword())) {
             throw new BadCredentialsException("Invalid username or password");
         }
+
+        // Create authentication token
+        UsernamePasswordAuthenticationToken authToken =
+                new UsernamePasswordAuthenticationToken(username, password);
+
+        // Authenticate
+        Authentication authentication = authenticationManager.authenticate(authToken);
+
+        // Create new security context and store it
+        SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
+        securityContext.setAuthentication(authentication);
+        SecurityContextHolder.setContext(securityContext);
+
+        // Store in session
+        session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, securityContext);
+        session.setAttribute("userId", user.getId());
+        session.setAttribute("username", user.getUsername());
+
+        System.out.println("Session Created for User " + username);
 
         return user;
     }

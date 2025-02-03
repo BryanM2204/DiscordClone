@@ -27,8 +27,8 @@ public class AuthController {
         ApiResponse<String> response = new ApiResponse<>(
                 "Login successful",
                 Map.of("Executed", true,
-                        "message", "Login was a success!",
-                        "userID", user.getId())
+                        "message", "Login was a success!"
+                )
         );
 
         return new ResponseEntity<>(response, HttpStatus.OK);

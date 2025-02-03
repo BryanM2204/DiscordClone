@@ -10,15 +10,11 @@ public class CreateDTO {
     @NotBlank(message="Description is required")
     private String description;
 
-    @NotNull(message="Owner ID is required")
-    private Integer ownerId;
-
     public CreateDTO() {}
 
     public CreateDTO(String name, String description, Integer ownerId) {
         this.name = name;
         this.description = description;
-        this.ownerId = ownerId;
     }
 
     public String getName() {
@@ -33,12 +29,5 @@ public class CreateDTO {
     }
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Integer getOwnerId() {
-        return ownerId;
-    }
-    public void setOwnerId(Integer ownerId) {
-        this.ownerId = ownerId;
     }
 }

@@ -1,2 +1,2 @@
 # DiscordClone
-Creating a fullstack Discord clone with additional features because why not
+Creating a fullstack Discord clone using Spring Boot with additional features because why not

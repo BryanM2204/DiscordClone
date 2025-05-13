@@ -1,1 +1,14 @@
-<p>chat works!</p>
+<div class="chat-header">
+  Chat with {{ friend?.username || 'Public Chat' }}
+</div>
+
+<div class="chat-messages">
+  <div class="chat-message" *ngFor="let msg of messages">
+    <span>{{ msg.sender }}:</span> {{ msg.content }}
+  </div>
+</div>
+
+<div class="chat-input">
+  <input type="text" [(ngModel)]="newMessage" placeholder="Type a message..." (keydown.enter)="send()" />
+  <button (click)="send()">Send</button>
+</div>

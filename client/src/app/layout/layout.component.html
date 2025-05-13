@@ -13,25 +13,12 @@
 
 <!-- Channels Section -->
 <div class="channels">
-  <h3>Direct Messages</h3>
-  <ul>
-  </ul>
+  <app-dm-list (friendSelected)="onFriendSelected($event)"></app-dm-list>
 </div>
 
 <!-- Chat Section -->
 <div class="chat">
-  <div class="chat-header">#general</div>
-  <div class="chat-messages">
-    <div class="chat-message">
-      <span>User1:</span> Hello there!
-    </div>
-    <div class="chat-message">
-      <span>User2:</span> Hi! How are you?
-    </div>
-  </div>
-  <div class="chat-input">
-    <input type="text" placeholder="Type a message...">
-  </div>
+  <app-chat *ngIf="selectedFriend" [friend]="selectedFriend"></app-chat>
 </div>
 </body>
 </html>

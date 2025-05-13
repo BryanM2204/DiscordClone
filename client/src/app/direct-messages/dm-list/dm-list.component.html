@@ -1,0 +1,12 @@
+<div class="friends">
+  <p>Direct Messages</p>
+  <ul>
+    <li *ngFor="let friend of friends" class="friend-icon">
+      <button class="friend-icon" (click)="selectFriend(friend)">
+        {{ friend.username }}
+      </button>
+    </li>
+  </ul>
+</div>
+
+

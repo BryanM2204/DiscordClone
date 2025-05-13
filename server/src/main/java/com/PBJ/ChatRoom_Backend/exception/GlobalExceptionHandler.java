@@ -1,5 +1,7 @@
 package com.PBJ.ChatRoom_Backend.exception;
 
+import com.PBJ.ChatRoom_Backend.exception.friendRequest.FriendRequestExistsException;
+import com.PBJ.ChatRoom_Backend.exception.friendRequest.FriendRequestMissingException;
 import com.PBJ.ChatRoom_Backend.exception.server.ServerCreationException;
 import com.PBJ.ChatRoom_Backend.exception.server.ServerNotFoundException;
 import com.PBJ.ChatRoom_Backend.exception.session.SessionNotFoundException;
@@ -125,6 +127,36 @@ public class GlobalExceptionHandler {
         );
 
         return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(FriendRequestExistsException.class)
+    public ResponseEntity<ApiResponse<Map<String, Object>>> FriendRequestExistsException(FriendRequestExistsException e) {
+        logger.warn("Friend Request already exists: ", e);
+        Map<String, Object> errorDetails = new HashMap<>();
+        errorDetails.put("message", "Friend Request Already Exists");
+        errorDetails.put("error_code", "FRIEND_REQUEST_ALREADY_EXISTS");
+        errorDetails.put("timestamp", LocalDateTime.now());
+        ApiResponse<Map<String, Object>> errorResponse = new ApiResponse<>(
+                "error",
+                errorDetails
+        );
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(FriendRequestMissingException.class)
+    public ResponseEntity<ApiResponse<Map<String, Object>>> FriendRequestMissingException(FriendRequestMissingException e) {
+        logger.warn("Friend Request Missing Exception: ", e);
+        Map<String, Object> errorDetails = new HashMap<>();
+        errorDetails.put("message", "Friend Request Missing Exception");
+        errorDetails.put("error_code", "FRIEND_REQUEST_MISSING_ERROR");
+        errorDetails.put("timestamp", LocalDateTime.now());
+        ApiResponse<Map<String, Object>> errorResponse = new ApiResponse<>(
+                "error",
+                errorDetails
+        );
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(Exception.class)

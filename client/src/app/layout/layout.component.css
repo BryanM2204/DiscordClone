@@ -47,4 +47,6 @@ body {
   background-color: #40444b;
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
+  height: 100%;
 }

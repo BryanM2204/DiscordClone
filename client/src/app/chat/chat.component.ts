@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import {Component, OnInit, Input, ViewChild, ElementRef, AfterViewInit, AfterViewChecked} from '@angular/core';
 import { WebsocketComponent } from '../websocket/websocket.component';
 import {FormsModule} from '@angular/forms';
 import {NgForOf} from '@angular/common';
@@ -12,16 +12,21 @@ import {NgForOf} from '@angular/common';
     NgForOf
   ]
 })
-export class ChatComponent implements OnInit {
+export class ChatComponent implements OnInit, AfterViewInit {
   @Input() friend: any;
   newMessage = '';
   messages: any[] = [];
 
+
+  private shouldScroll = false;
+  @ViewChild('messagesContainer') private messagesContainer!: ElementRef;
   constructor(private websocketService: WebsocketComponent) {}
+
 
   ngOnInit(): void {
     this.websocketService.connect((msg) => {
       this.messages.push(msg);
+      this.scrollToBottom();
     });
   }
 
@@ -33,4 +38,16 @@ export class ChatComponent implements OnInit {
     this.websocketService.sendMessage(message);
     this.newMessage = '';
   }
+
+  ngAfterViewInit(): void {
+    this.scrollToBottom(); // initial scroll
+  }
+
+  private scrollToBottom(): void {
+    const el = this.messagesContainer.nativeElement;
+    el.scrollTop = el.scrollHeight;
+  }
+
+
+
 }

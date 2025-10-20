@@ -2,7 +2,7 @@
   Chat with {{ friend?.username || 'Public Chat' }}
 </div>
 
-<div class="chat-messages">
+<div class="chat-messages" #messagesContainer>
   <div class="chat-message" *ngFor="let msg of messages">
     <span>{{ msg.sender }}:</span> {{ msg.content }}
   </div>
